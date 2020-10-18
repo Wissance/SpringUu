@@ -35,3 +35,35 @@ $liquibaseChangelog = Join-Path $migrationPath "newChangelog.xml"
 
 Write-Host "Liquibase diff file is: $liquibaseDiff"
 Write-Host "Liquibase changelog file is: $liquibaseChangelog"
+
+if (Test-Path $liquibaseDiff)
+{
+    Remove-Item $liquibaseDiff
+}
+
+if (Test-Path $liquibaseChangelog)
+{
+    Remove-Item $liquibaseChangelog
+}
+
+# 4. Changelog generation
+$liquibaseRunList = "-PrunList=changesGen"
+& $gardleFullPath diffChangeLog $liquibaseRunList
+
+# 5. Sql migration from changelog
+& $gardleFullPath updateSql $liquibaseRunList
+
+# 6. Copy migration to migrations dir
+
+# 7. Update Migration Changelog.xml
+
+# 8. Clean-up
+if (Test-Path $liquibaseDiff)
+{
+    Remove-Item $liquibaseDiff
+}
+
+if (Test-Path $liquibaseChangelog)
+{
+    Remove-Item $liquibaseChangelog
+}
