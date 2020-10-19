@@ -54,7 +54,8 @@ $liquibaseRunList = "-PrunList=changesGen"
 & $gardleFullPath updateSql $liquibaseRunList
 
 # 6. Copy migration to migrations dir
-
+$migrationFileFullPath = Join-Path $migrationPath $migrationFileName
+Copy-Item -Path $liquibaseChangelog -Destination $migrationFileFullPath
 # 7. Update Migration Changelog.xml
 
 # 8. Clean-up
