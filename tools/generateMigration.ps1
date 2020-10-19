@@ -20,21 +20,21 @@ $migrationName = $migrationName.Replace(' ', '_')
 $timestamp = (Get-Date).ToString('yyyy-MM-dd_HH-mm-ss')
 $migrationFileName = "$($timestamp)_Migration_$($migrationNumber)_$($migrationName).sql"
 
-Write-Host "Generating migration name: $migrationFileName"
+# Write-Host "Generating migration name: $migrationFileName"
 
 $currentDir = Split-Path (Get-Variable MyInvocation).Value.MyCommand.Path
 # Here we assume that gradle is located in same dir as this script
-Write-Host "Working directory is: $currentDir"
+# Write-Host "Working directory is: $currentDir"
 
-$gardleFullPath = Join-Path $currentDir $gradleScriptName
-Write-Host "Gradle script path is: $gardleFullPath"
+$gradleFullPath = Join-Path $currentDir $gradleScriptName
+# Write-Host "Gradle script path is: $gardleFullPath"
 # 3. Remove generated files
 $migrationPath = Join-Path $currentDir "src\main\resources\db\changelog\"
 $liquibaseDiff = Join-Path $currentDir "diffOutputLog.txt"
 $liquibaseChangelog = Join-Path $migrationPath "newChangelog.xml"
 
-Write-Host "Liquibase diff file is: $liquibaseDiff"
-Write-Host "Liquibase changelog file is: $liquibaseChangelog"
+# Write-Host "Liquibase diff file is: $liquibaseDiff"
+# Write-Host "Liquibase changelog file is: $liquibaseChangelog"
 
 if (Test-Path $liquibaseDiff)
 {
@@ -46,18 +46,24 @@ if (Test-Path $liquibaseChangelog)
     Remove-Item $liquibaseChangelog
 }
 
-# 4. Changelog generation
+# 4. Diff generation
 $liquibaseRunList = "-PrunList=changesGen"
-& $gardleFullPath diffChangeLog $liquibaseRunList
+
+Write-Host "###### 1. Generate Diff file Between Model classes and database ######"
+& $gradleFullPath diffChangeLog $liquibaseRunList
 
 # 5. Sql migration from changelog
-& $gardleFullPath updateSql $liquibaseRunList
+Write-Host "###### 2. Generate Sql from Xml Diff ######"
+# Write-Host "Debug CMD: $gradleFullPath updatesql $liquibaseRunList"
+& $gradleFullPath updatesql $liquibaseRunList
 
 # 6. Copy migration to migrations dir
+Write-Host "###### 3. Copy migration to standard changelog directory (src\main\resources\db\changelog\) ######"
 $migrationFileFullPath = Join-Path $migrationPath $migrationFileName
-Copy-Item -Path $liquibaseChangelog -Destination $migrationFileFullPath
-# 7. Update Migration Changelog.xml
+Copy-Item -Path $liquibaseDiff -Destination $migrationFileFullPath
 
+# 7. Update Migration Changelog.xml
+Write-Host "###### 4. Append migration to changelog.xml ######"
 # 8. Clean-up
 if (Test-Path $liquibaseDiff)
 {

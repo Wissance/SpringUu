@@ -11,6 +11,8 @@ Currently ALL tools are working with Gradle build system
     include migration in changelog.xml (located on standard path: src\main\resources\db\changelog\changelog.xml)
     Do following:
     a. copy appropriate shell script to directory where you build.gradle file is located
-    b. if it is a first migration prepare database: .\gradlew.bat updatesql -PrunList='changesGen'
+    b. if it is a first migration prepare database !!!! : .\gradlew.bat update -PrunList='changesApply'
     c. run .\generateMigration.ps1 1 Initial or ./generateMigration.sh 1 Initial
-    d. apply migration manually ... or at application start with liquibase
+    d. apply migration manually or at application start with liquibase
+	
+    Phase b. will possibly moved inside c.
