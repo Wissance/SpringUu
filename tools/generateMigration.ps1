@@ -67,7 +67,7 @@ Write-Host "###### 4. Append migration to changelog.xml ######"
 $changelogFile = Join-Path $migrationPath "changelog.xml"
 $changelogXml=[xml](Get-Content $changelogFile)
 $node = $changelogXml.databaseChangeLog
-$includeNode = $changelogXml.CreateElement("include")
+$includeNode = $changelogXml.CreateElement("include", $node.NamespaceURI)
 $includeNode.SetAttribute("file", $migrationFileName)
 $includeNode.SetAttribute("relativeToChangelogFile", 'true')
 $node.AppendChild($includeNode)
