@@ -64,6 +64,15 @@ Copy-Item -Path $liquibaseDiff -Destination $migrationFileFullPath
 
 # 7. Update Migration Changelog.xml
 Write-Host "###### 4. Append migration to changelog.xml ######"
+$changelogFile = Join-Path $migrationPath "changelog.xml"
+$changelogXml=[xml](Get-Content $changelogFile)
+$node = $changelogXml.databaseChangeLog
+$includeNode = $changelogXml.CreateElement("include")
+$includeNode.SetAttribute("file", $migrationFileName)
+$includeNode.SetAttribute("relativeToChangelogFile", 'true')
+$node.AppendChild($includeNode)
+$changelogXml.save($changelogFile)
+
 # 8. Clean-up
 if (Test-Path $liquibaseDiff)
 {
