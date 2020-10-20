@@ -1,6 +1,5 @@
 ## Description
-
-   Set of utilities and classes to make easier life with Spring Boot.
+   SpringUu is a spring Ultinmate Utils that makse easier life and work with Spring Boot 2+.
 
 ## Usefull tools:
     - easily generate migration and include in changelog.xml
