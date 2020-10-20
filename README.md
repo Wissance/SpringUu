@@ -24,7 +24,7 @@ Currently ALL tools are working ONLY with Gradle build system
                         url "jdbc:postgresql://localhost:5432/webportal"
                         username "developer"
                         password "123"
-                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.webportal.application.utils.SnakePhysicalNamingStrategy"
+                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.utils.SnakePhysicalNamingStrategy"
                         referenceDriver 'liquibase.ext.hibernate.database.connection.HibernateDriver'
                     }
                     changesGen {
@@ -34,7 +34,7 @@ Currently ALL tools are working ONLY with Gradle build system
                         url "jdbc:postgresql://localhost:5432/webportal"
                         username "developer"
                         password "123"
-                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.webportal.application.utils.SnakePhysicalNamingStrategy"
+                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.utils.SnakePhysicalNamingStrategy"
                         referenceDriver 'liquibase.ext.hibernate.database.connection.HibernateDriver'
                     }
                     // changesApply is used for Apply Migrations on Database
@@ -45,7 +45,7 @@ Currently ALL tools are working ONLY with Gradle build system
                         url "jdbc:postgresql://localhost:5432/monitor"
                         username "developer"
                         password "123"
-                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.webportal.application.utils.SnakePhysicalNamingStrategy"
+                        referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.utils.SnakePhysicalNamingStrategy"
                         referenceDriver 'liquibase.ext.hibernate.database.connection.HibernateDriver'
                     }
                 }
@@ -54,6 +54,19 @@ Currently ALL tools are working ONLY with Gradle build system
 
         3. You MUST include class SnakePhysicalNamingStrategy in your project and configure path in upper mentioned Gradle script
         4. See package for models classes, in gradle settings it were set as - com.wissance.webportal.application.model.entities
+        5. In above example we assumed that we works with Postgres SQL and therefore your application.yml should be configured in following manner:
+        spring:
+          jpa:
+            show-sql: true
+            properties:
+              hibernate:
+                format_sql: true
+                enable_lazy_load_no_trans: true
+                naming:
+                  physical-strategy: com.wissance.utils.SnakePhysicalNamingStrategy
+            hibernate:
+              ddl-auto: none
+            database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     
     ### Algorythm.
     To generate migration based on changes between model and database state and include changes as SQL diff (migration) in changelog.xml (located on standard path: src\main\resources\db\changelog\changelog.xml)
