@@ -1,4 +1,4 @@
-package com.wissance.utils;
+package com.wissance.SprinUu.utils;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
