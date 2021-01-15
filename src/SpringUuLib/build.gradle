@@ -1,0 +1,26 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.wissance'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.hibernate:hibernate-core:5.4.10.Final'
+}
+
+bootJar {
+  enabled = false
+}
+
+jar {
+  enabled = true
+}
