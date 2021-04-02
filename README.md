@@ -41,7 +41,7 @@ Currently ALL tools are working ONLY with Gradle build system
                         changeLogFile "$projectDir/src/main/resources/db/changelog/changelog.xml"
                         outputFile outputLog
                         driver "org.postgresql.Driver"
-                        url "jdbc:postgresql://localhost:5432/monitor"
+                        url "jdbc:postgresql://localhost:5432/webportal"
                         username "developer"
                         password "123"
                         referenceUrl "hibernate:spring:com.wissance.webportal.application.model.entities?dialect=org.hibernate.dialect.PostgreSQL94Dialect&hibernate.physical_naming_strategy=com.wissance.utils.SnakePhysicalNamingStrategy"
