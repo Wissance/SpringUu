@@ -13,7 +13,7 @@ Currently ALL tools are working ONLY with Gradle build system
 
     ### Requirements:
         1. Shell script must be located in the same directory as build.gradle
-        2. Gradle script must have special liquibase settings:
+        2. Gradle script must have special liquibase settings (see full example here: samples/gradleWithLiquibase):
             liquibase {
                 activities {
                     main {
